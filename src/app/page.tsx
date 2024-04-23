@@ -1,7 +1,7 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { pathName } from "@/utils/routes";
+import { pathName } from "@/routes/routes";
 import { ArrowDownToLine, CheckCircle, Leaf, LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { Fragment } from "react";
