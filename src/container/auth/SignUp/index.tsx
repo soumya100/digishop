@@ -4,9 +4,10 @@ import React from 'react'
 import { SignUpHooks } from './Hooks'
 
 const SignUpContainer = () => {
-  const {register, handleSubmit, errors, onSubmit}=SignUpHooks()
+  const {register, handleSubmit, errors, onSubmit, mutate, isLoading: postLoader}=SignUpHooks()
   return (
-   <SignUp register={register} handleSubmit={handleSubmit} errors={errors} onSubmit={onSubmit}/>
+   <SignUp register={register} handleSubmit={handleSubmit}
+    errors={errors} onSubmit={onSubmit} postLoader={postLoader} />
   )
 }
 

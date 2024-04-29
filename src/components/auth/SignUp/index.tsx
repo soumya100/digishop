@@ -11,15 +11,17 @@ import { FC, useState } from 'react'
 import { FieldErrors, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 
 interface SignUpProps {
-    register: UseFormRegister<{email: string; password: string;}>;
-    handleSubmit: UseFormHandleSubmit<{email: string; password: string;}>;
-    errors: FieldErrors<{email: string; password: string;}>;
-    onSubmit({email, password}: TAuthCredentialsValidator): void
+    register: UseFormRegister<{ email: string; password: string; }>;
+    handleSubmit: UseFormHandleSubmit<{ email: string; password: string; }>;
+    errors: FieldErrors<{ email: string; password: string; }>;
+    onSubmit({ email, password }: TAuthCredentialsValidator): void
+    postLoader: boolean
 }
 
 const SignUp: FC<SignUpProps> = ({ register, handleSubmit, errors, onSubmit }) => {
 
-    const [isPassword, setIsPassword]=useState<boolean>(true)
+    const [isPassword, setIsPassword] = useState<boolean>(true)
+
 
     return <div className='container relative flex pt-20 flex-col items-center justify-center lg:px-0 '>
         <div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]'>
@@ -33,35 +35,37 @@ const SignUp: FC<SignUpProps> = ({ register, handleSubmit, errors, onSubmit }) =
             <div className='grid gap-6'>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-2">
-                        <div className="grid gap-1 py-2">
+                        <div className="grid gap-2 py-2">
                             <Label htmlFor='email'>
                                 Email
                             </Label>
                             <Input className={cn({
-                                "focus-visible:ring-red-500": errors.email
+                                "focus-visible:ring-red-500 ring-inset": errors.email
                             })}
                                 placeholder='you@example.com'
                                 {...register("email")}
 
                             />
                         </div>
-                        <div className="grid gap-1 py-2 relative">
+                        <div className="grid gap-2 py-2">
                             <Label htmlFor='password'>
                                 Password
                             </Label>
-                            <Input className={cn({
-                                "focus-visible:ring-red-500": errors.password
-                            })}
-                                placeholder='Password'
-                                type={isPassword ? 'password' :'text'}
-                                {...register("password")}
-                            />
-                            <div className='absolute right-3 top-9 cursor-pointer' onClick={()=>{setIsPassword(prev=>!prev)}}>
-                                {
-                                    isPassword ? 
-                                    <Eye className='h-5'/> :
-                                    <EyeOff className='h-5'/>
-                                }
+                            <div className='flex items-center relative'>
+                                <Input className={cn({
+                                    "focus-visible:ring-red-500 ring-inset": errors.password
+                                })}
+                                    placeholder='Password'
+                                    type={isPassword ? 'password' : 'text'}
+                                    {...register("password")}
+                                />
+                                <div className='absolute right-2 cursor-pointer' onClick={() => { setIsPassword(prev => !prev) }}>
+                                    {
+                                        isPassword ?
+                                            <Eye className='h-5' /> :
+                                            <EyeOff className='h-5' />
+                                    }
+                                </div>
                             </div>
                         </div>
                         <Button>

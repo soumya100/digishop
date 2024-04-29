@@ -1,12 +1,16 @@
-import { useForm } from "react-hook-form"
-import {zodResolver} from "@hookform/resolvers/zod"
 import { AuthCredentialsValidator, TAuthCredentialsValidator } from "@/lib/validators/account-credentials-validator"
+import { trpc } from "@/trpc/client"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 
 export const SignUpHooks=()=>{
 
+    const {mutate, isLoading}= trpc.auth.createPayloadUser.useMutation({
+
+    })
     
 
-    const {register, handleSubmit, formState: {errors}}=useForm<TAuthCredentialsValidator>(
+    const {register, handleSubmit, formState: {errors}, reset}=useForm<TAuthCredentialsValidator>(
         {
             resolver: zodResolver(AuthCredentialsValidator),
         }
@@ -14,11 +18,12 @@ export const SignUpHooks=()=>{
 
     //on submit function for signUP
     const onSubmit=({email, password}: TAuthCredentialsValidator)=>{
-        console.log(email, 'email')
-        console.log(password, 'password')
+        mutate({email, password})
+        reset()
     }
 
+
     return {
-        register, handleSubmit, errors, onSubmit 
+        register, handleSubmit, errors, onSubmit, mutate, isLoading
     }
 }

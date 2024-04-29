@@ -3,14 +3,22 @@ import { slateEditor } from "@payloadcms/richtext-slate";
 import { buildConfig } from "payload/config";
 import { webpackBundler } from "@payloadcms/bundler-webpack";
 import path from "path";
-console.log(">>>",process.env.MONGODB_URL)
+import { Users } from "./collections/Users";
+import dotenv from "dotenv" 
+
+dotenv.config({
+    path: path.resolve(__dirname, "../.env.local")
+})
+
+
 export default buildConfig({
     serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
-    collections: [],
+    collections: [Users],
     routes:{
         admin: '/sell',
     },
     admin: {
+        user: "users",
         bundler: webpackBundler(),
         meta:{
             titleSuffix: "- DigiShop",
