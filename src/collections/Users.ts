@@ -1,3 +1,4 @@
+import { pathName } from "../routes/routes";
 import { CollectionConfig } from "payload/types";
 
 export const Users: CollectionConfig = {
@@ -6,6 +7,7 @@ export const Users: CollectionConfig = {
         verify: {
             generateEmailHTML: ({token}) => {
                 return `<p>Please verify your email...
+                To verify your account click here <a href='${process.env.NEXT_PUBLIC_SERVER_URL}/${pathName.verifyEmail}?token=${token}'></a>
                 This is an auto generated mail, Please don't reply to this email...
                 If you have any queries related to Us, Please send a mail to....
                 digishop415@gmail.com
