@@ -9,5 +9,9 @@ export const pathName={
 
     //product routes
     products: '/products',
-    cart: '/cart'
+    cart: '/cart',
+
+    //seller router
+    seller:'/sell',
+    sellerQuery: 'seller'
 }

@@ -30,36 +30,54 @@ const SignUp: FC<SignUpProps> = ({ register, handleSubmit, errors, onSubmit }) =
                 <h1 className='text-2xl font-bold'>
                     Create an account
                 </h1>
-
+                    <Link href={pathName.signIn} className={cn(buttonVariants({ variant: 'link' }), 'ps-2 pe-0 gap-1.5')}>
+                    Already have an account? Sign-in
+                        <ArrowRight className='h-4 w-4' />
+                    </Link>
             </div>
-            <div className='grid gap-6'>
+            <div className='grid gap-2'>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-2">
                         <div className="grid gap-2 py-2">
                             <Label htmlFor='email'>
                                 Email
                             </Label>
-                            <Input className={cn({
-                                "focus-visible:ring-red-500 ring-inset": errors.email
-                            })}
-                                placeholder='you@example.com'
-                                {...register("email")}
+                            <div className='w-full'>
+                                <Input className={cn({
+                                    "focus-visible:ring-red-500 ring-inset": errors.email
+                                })}
+                                    placeholder='you@example.com'
+                                    {...register("email")}
 
-                            />
+                                />
+                                {errors?.email && (
+                                    <small className='text-sm text-red-500'>{errors.email.message}</small>
+                                )}
+                            </div>
                         </div>
                         <div className="grid gap-2 py-2">
                             <Label htmlFor='password'>
                                 Password
                             </Label>
                             <div className='flex items-center relative'>
-                                <Input className={cn({
-                                    "focus-visible:ring-red-500 ring-inset": errors.password
-                                })}
-                                    placeholder='Password'
-                                    type={isPassword ? 'password' : 'text'}
-                                    {...register("password")}
-                                />
-                                <div className='absolute right-2 cursor-pointer' onClick={() => { setIsPassword(prev => !prev) }}>
+                                <div className='w-full'>
+                                    <Input className={cn({
+                                        "focus-visible:ring-red-500 ring-inset": errors.password
+                                    })}
+                                        placeholder='Password'
+                                        type={isPassword ? 'password' : 'text'}
+                                        {...register("password")}
+                                    />
+                                    {errors?.password && (
+                                        <small className='text-sm text-red-500'>
+                                            {errors.password.message}
+                                        </small>
+                                    )}
+                                </div>
+                                <div className={cn({
+                                    "absolute right-2 cursor-pointer": !errors?.email?.message,
+                                    "absolute right-2 top-3 cursor-pointer": errors?.email?.message
+                                })} onClick={() => { setIsPassword(prev => !prev) }}>
                                     {
                                         isPassword ?
                                             <Eye className='h-5' /> :
@@ -71,14 +89,6 @@ const SignUp: FC<SignUpProps> = ({ register, handleSubmit, errors, onSubmit }) =
                         <Button>
                             Sign up
                         </Button>
-
-                        <span className='text-muted-foreground flex items-center justify-center flex-wrap'>
-                            Already have an account?
-                            <Link href={pathName.signIn} className={cn(buttonVariants({ variant: 'link' }), 'ps-2 pe-0 gap-1.5')}>
-                                Sign-in
-                                <ArrowRight className='h-4 w-4' />
-                            </Link>
-                        </span>
                     </div>
                 </form>
             </div>

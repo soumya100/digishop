@@ -1,24 +1,21 @@
 
-import { cn } from '@/lib/utils'
-import { FC } from 'react'
-import MaxWidthWrapper from '../MaxWidthWrapper'
-import Link from 'next/link'
-import { pathName } from '@/routes/routes'
 import { Icons } from '@/Icons/Icons'
-import NavItems from './NavItems'
+import { getServerSideUser } from '@/lib/payload-utils'
+import { cn } from '@/lib/utils'
+import { pathName } from '@/routes/routes'
+import { cookies } from 'next/headers'
+import Link from 'next/link'
+import MaxWidthWrapper from '../MaxWidthWrapper'
 import { buttonVariants } from '../ui/button'
 import Cart from './Cart'
+import NavItems from './NavItems'
+import UserAccountNav from './UserAccountNav'
 
-interface NavBarProps {
-    handleOpen(idx: number): void
-    isOpen(idx: number): boolean
-    isAnyOpen: boolean
-    handleClose(): void
-}
 
-const NavBar: FC<NavBarProps> = ({ handleOpen, isOpen, isAnyOpen, handleClose }) => {
+const NavBar = async () => {
 
-    const user = null
+    const nextCookies = cookies()
+    const { user } = await getServerSideUser(nextCookies)
 
     return <div className={cn('bg-white sticky z-50 top-0 inset-x-60 h-16')}>
         <header className={cn('relative bg-white')}>
@@ -33,8 +30,7 @@ const NavBar: FC<NavBarProps> = ({ handleOpen, isOpen, isAnyOpen, handleClose })
                             </Link>
                         </div>
                         <div className={cn('hidden z-50 lg:ml-8 lg:block lg:self-stretch')}>
-                            <NavItems handleOpen={handleOpen} isOpen={isOpen}
-                                isAnyOpen={isAnyOpen} handleClose={handleClose} />
+                            <NavItems />
                         </div>
                         <div className='ml-auto flex items-center'>
                             <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
@@ -42,12 +38,13 @@ const NavBar: FC<NavBarProps> = ({ handleOpen, isOpen, isAnyOpen, handleClose })
                                 {
                                     user ? null : <span className='h-6 w-px bg-gray-200' aria-hidden />
                                 }
-                                {user ? <p></p> : <Link href={pathName.signUp} className={buttonVariants()}>
-                                    Create account
-                                </Link>}
-                                {user ? <span className='h-6 w-px bg-gray-200' aria-hidden/> : null}
+                                {user ? <UserAccountNav user={user} /> : (
+                                    <Link href={pathName.signUp} className={buttonVariants()}>
+                                        Create account
+                                    </Link>)}
+                                {user ? <span className='h-6 w-px bg-gray-200' aria-hidden /> : null}
                                 {user ? null : <div className='flex lg:ml-6'>
-                                <span className='h-6 w-px bg-gray-200' aria-hidden/>
+                                    <span className='h-6 w-px bg-gray-200' aria-hidden />
                                 </div>}
 
                                 <div className='ml-4 flow-root lg:ml-6 '>

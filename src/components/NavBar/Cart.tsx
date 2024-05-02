@@ -1,3 +1,4 @@
+'use client'
 import { FC } from 'react'
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet'
 import { ShoppingCart } from 'lucide-react'
@@ -15,8 +16,9 @@ interface CartProps {
 const Cart: FC<CartProps> = ({ }) => {
 
     const itemCount = 0
-
+    
     const fee = 1
+   
 
     return <Sheet>
         <SheetTrigger className='group -m-2 flex items-center p-2 '>

@@ -1,3 +1,4 @@
+'use client'
 import { featured, productCategories } from '@/config'
 import { ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
