@@ -71,17 +71,16 @@ const SignIn: FC<SignInProps> = ({ register, handleSubmit, errors, onSubmit, isS
                                     type={isPassword ? 'password' : 'text'}
                                     {...register("password")}
                                 />
-
-                            </div>
-                            <div className={cn({
-                                "absolute right-2 cursor-pointer": !errors?.email?.message,
-                                "absolute right-2 top-3 cursor-pointer": errors?.email?.message
-                            })} onClick={() => { setIsPassword(prev => !prev) }}>
-                                {
-                                    isPassword ?
-                                        <Eye className='h-5' /> :
-                                        <EyeOff className='h-5' />
-                                }
+                                <div className={cn({
+                                    "absolute right-2 cursor-pointer": !errors?.email?.message,
+                                    "absolute right-2 top-3 cursor-pointer": errors?.email?.message
+                                },)} onClick={() => { setIsPassword(prev => !prev) }}>
+                                    {
+                                        isPassword ?
+                                            <Eye className='h-5' /> :
+                                            <EyeOff className='h-5' />
+                                    }
+                                </div>
                             </div>
                             {errors?.password && (
                                 <small className='text-sm text-red-500'>

@@ -5,62 +5,61 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import { ZodError } from "zod"
 
-export const SignInHooks=()=>{
-    const router= useRouter()
-    const searchParams= useSearchParams()
-    const isSeller= searchParams.get('as') === 'seller' //checking if the signed in user is seller or not
+export const SignInHooks = () => {
+    const router = useRouter()
+    const searchParams = useSearchParams()
+    const isSeller = searchParams.get('as') === 'seller' //checking if the signed in user is seller or not
 
-    const origin= searchParams.get('origin') /** getting the origin to redirect from cart to 
-         sign in so that onlu authenticated user can access the cart
+    const origin = searchParams.get('origin') /** getting the origin to redirect from cart to 
+         sign in so that only authenticated user can access the cart
      */
 
-    
-    const {mutate: signIn, isLoading }= trpc.auth.signIn.useMutation({
-        onSuccess: () =>{
+
+    const { mutate: signIn, isLoading } = trpc.auth.signIn.useMutation({
+        onSuccess: () => {
             toast.success("Signed in successfully")
 
-            if(origin){
+            if (origin) {
                 router.push(`/${origin}`)
                 return
             }
-            
-            if(isSeller){
+
+            if (isSeller) {
                 router.push(pathName.seller)
                 return
             }
-            
+
             router.push(pathName.landingPage)
             router.refresh()
         },
-        onError: (err)=>{
-            if(err.data?.code === 'UNAUTHORIZED'){
+        onError: (err) => {
+            if (err.data?.code === 'UNAUTHORIZED') {
                 toast.error("Invalid error or password.")
             }
         }
     })
 
-    const {register, handleSubmit, formState: {errors}, reset}=useForm<TAuthCredentialsValidator>(
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<TAuthCredentialsValidator>(
         {
             resolver: zodResolver(AuthCredentialsValidator),
         }
     )
 
     //handle continue as seller
-    const handleContinueAsSeller=()=>{
+    const handleContinueAsSeller = () => {
         router.push(`?as=${pathName.sellerQuery}`)
     }
 
     //handle continue as buyer
-    const handleContinueAsBuyer=()=>{
+    const handleContinueAsBuyer = () => {
         router.replace(pathName.signIn, undefined)
     }
 
 
     //on submit function for signUP
-    const onSubmit=({email, password}: TAuthCredentialsValidator)=>{
-        signIn({email, password})
+    const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
+        signIn({ email, password })
         reset()
     }
     return {
