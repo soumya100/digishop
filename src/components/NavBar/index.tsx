@@ -10,6 +10,7 @@ import { buttonVariants } from '../ui/button'
 import Cart from './Cart'
 import NavItems from './NavItems'
 import UserAccountNav from './UserAccountNav'
+import { ModeToggle } from './ModeToggle'
 
 
 const NavBar = async () => {
@@ -17,8 +18,8 @@ const NavBar = async () => {
     const nextCookies = cookies()
     const { user } = await getServerSideUser(nextCookies)
 
-    return <div className={cn('bg-white sticky z-50 top-0 inset-x-60 h-16')}>
-        <header className={cn('relative bg-white')}>
+    return <div className={cn('bg-white sticky z-50 top-0 inset-x-60 h-16 dark:bg-background')}>
+        <header className={cn('relative bg-white dark:bg-background')}>
             <MaxWidthWrapper>
                 <div className={cn('border-b border-gray-200')}>
                     <div className={cn('flex h-16 items-center')}>
@@ -47,8 +48,11 @@ const NavBar = async () => {
                                     <span className='h-6 w-px bg-gray-200' aria-hidden />
                                 </div>}
 
-                                <div className='ml-4 flow-root lg:ml-6 '>
-                                    <Cart />
+                                <div className="flex gap-5 h-full items-center">
+                                    <div className='ml-4 flow-root lg:ml-6 '>
+                                        <Cart />
+                                    </div>
+                                    <ModeToggle />
                                 </div>
                             </div>
                         </div>
