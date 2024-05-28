@@ -23,3 +23,5 @@ export function formatPrice(
     maximumFractionDigits: 2
    }).format(numericPrice)
 }
+
+export const FALLBACK_LIMIT= 4;

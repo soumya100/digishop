@@ -10,6 +10,7 @@ export const pathName={
     //product routes
     products: '/products',
     cart: '/cart',
+    singleProduct: (id: string)=> `/product/${id}` ,
 
     //seller router
     seller:'/sell',

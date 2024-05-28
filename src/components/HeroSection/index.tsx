@@ -1,4 +1,3 @@
-import React from 'react'
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import ProductReel from "@/components/Product/ProductReel";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -54,7 +53,11 @@ const HeroSection = () => {
         </div>
       </div>
       
-      <ProductReel title="Brand new"/>
+      <ProductReel title="Brand new" href={pathName.products} query={{
+        sort: "desc",
+        limit:4
+      }}/>
+     
     </MaxWidthWrapper>
     <section className={cn('border-t border-gray-200 bg-gray-50 dark:bg-black')}>
       <MaxWidthWrapper className={'py-20'}>
