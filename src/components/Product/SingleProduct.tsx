@@ -51,8 +51,8 @@ const SingleProduct: FC<SingleProductProps> = async ({ id }) => {
         typeof image === 'string' ? image : image.url
     )).filter(Boolean) as string[]
 
-    return <MaxWidthWrapper className='bg-white'>
-        <div className='bg-white'>
+    return <MaxWidthWrapper className='bg-white dark:bg-background'>
+        <div className='bg-white dark:bg-background'>
             <div className=" mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
                 {/* product details */}
                 <div className='lg:max-w-lg lg:self-end'>
@@ -72,14 +72,14 @@ const SingleProduct: FC<SingleProductProps> = async ({ id }) => {
                         }
                     </ol>
                     <div className="mt-4">
-                        <h1 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
+                        <h1 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl dark:text-slate-100'>
                             {product.name}
                         </h1>
                     </div>
 
                     <section className='mt-4'>
                         <div className='flex items-center'>
-                            <p className='font-medium text-gray-900'>{formatPrice(product.price)}</p>
+                            <p className='font-medium text-gray-900 dark:text-white'>{formatPrice(product.price)}</p>
                             <div className='ml-4 border-l text-muted-foreground  border-gray-300 pl-4'>
                                 {label}
                             </div>

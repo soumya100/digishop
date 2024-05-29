@@ -16,6 +16,7 @@ import Image from 'next/image'
 
 const Cart = () => {
   const { items } = useCart()
+  
   const itemCount = items.length
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
