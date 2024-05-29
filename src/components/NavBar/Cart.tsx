@@ -8,14 +8,20 @@ import { pathName } from '@/routes/routes'
 import { buttonVariants } from '../ui/button'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useCart } from '@/hooks/use-cart'
+import CartItem from '../Cart/CartItem'
 
 interface CartProps {
 
 }
 
 const Cart: FC<CartProps> = ({ }) => {
+    
+    const {items}= useCart() 
 
-    const itemCount = 0
+    const itemCount= items.length
+
+    const cartTotal= items.reduce((total, {product})=> total + product.price,0 )
     
     const fee = 1
    
@@ -38,7 +44,12 @@ const Cart: FC<CartProps> = ({ }) => {
                 itemCount > 0 ? (
                     <>
                         <div className='flex w-full flex-col pr-6'>
-                            {/* TODO: cart logic */}
+                            {/* cart logic */}
+                                {
+                                    items.map(({product})=>(
+                                        <CartItem key={product.id}/>
+                                    ))
+                                }
                             Cart Items
                         </div>
                         <div className='space-y-4 pr-6'>
@@ -65,7 +76,7 @@ const Cart: FC<CartProps> = ({ }) => {
                                         Total Fee
                                     </span>
                                     <span>
-                                        {formatPrice(fee)}
+                                        {formatPrice(cartTotal + fee)}
                                     </span>
                                 </div>
                             </div>
