@@ -16,7 +16,7 @@ import Image from 'next/image'
 
 const Cart = () => {
   const { items } = useCart()
-  
+
   const itemCount = items.length
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
@@ -39,7 +39,7 @@ const Cart = () => {
           aria-hidden='true'
           className='h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500'
         />
-        <span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800'>
+        <span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800 dark:text-foreground dark:group-hover:text-muted-foreground'>
           {isMounted ? itemCount : 0}
         </span>
       </SheetTrigger>

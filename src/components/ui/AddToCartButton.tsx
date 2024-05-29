@@ -21,7 +21,7 @@ const AddToCartButton = ({ product }: { product: Product }) => {
     <Button onClick={() => {
       addItem(product)
       setIsSuccess(true)
-    }} size={'lg'} className='w-full flex gap-5'>
+    }} size={'lg'} className='w-full flex gap-5' disabled={isSuccess}>
       {isSuccess ? <CheckCheck /> : <ShoppingCart />}
       {isSuccess ? "Added to cart!" : "Add to cart"}
     </Button>

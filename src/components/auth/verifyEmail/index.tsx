@@ -22,7 +22,6 @@ const VerifyEmail: FC<VerifyEmail> = ({ searchParams, getToken, isError, data, i
     token && typeof token === 'string' && getToken(token)
   }, [token])
 
-  console.log(token)
 
   return <div className='container relative flex pt-20 flex-col items-center justofy-center px-0'>
     <div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]'>

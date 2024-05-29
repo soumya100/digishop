@@ -35,7 +35,7 @@ const ProductReel: FC<ProductReelProps> = (props) => {
     map = new Array<null>(query.limit ?? FALLBACK_LIMIT).fill(null)
   }
 
-  console.table(map)
+ 
   return <section className='py-12'>
     <div className="md:flex md:items-center md:justify-between mb-4">
       <div className="max-w-2xl px-4 lg:max-w-4xl lg:px-0">
@@ -62,7 +62,7 @@ const ProductReel: FC<ProductReelProps> = (props) => {
         <div className='w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8'>
           {
             map.map((product, i)=>(
-              <ProductListing key={i} index={i} product={product}/>
+              <ProductListing key={`product-${i}`} index={i} product={product}/>
             ))
           }
         </div>
