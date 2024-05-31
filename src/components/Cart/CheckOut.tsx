@@ -8,6 +8,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
+import { trpc } from '@/trpc/client';
+import { useRouter } from 'next/navigation';
 
 interface CheckOutProps {
 
@@ -17,6 +19,8 @@ const CheckOut: FC<CheckOutProps> = ({ }) => {
 
     const { items, removeItem } = useCart();
     const [isMounted, setIsMounted] = useState<boolean>(false)
+    const router = useRouter()
+
 
     useEffect(() => {
         setIsMounted(true)
@@ -26,6 +30,14 @@ const CheckOut: FC<CheckOutProps> = ({ }) => {
         (total, { product }) => total + product.price,
         0
     )
+
+    const { mutate: createCheckoutSession, isLoading } = trpc.payment.createSession.useMutation({
+        onSuccess: ({ url }) => {
+            if (url) router.push(url)
+        }
+    })
+
+    const productIds=items.map(({product})=> product.id)
 
     const fee = 1;
     const loader = <Loader2 className='h-4 w-4 animate-spin text-muted-foreground' />
@@ -158,8 +170,11 @@ const CheckOut: FC<CheckOutProps> = ({ }) => {
                     </div>
                 </div>
                 <div className="mt-6">
-                    <Button className='w-full' size={'lg'}>
-                        Checkout
+                    <Button
+                    onClick={()=>createCheckoutSession({productIds})}
+                    className='w-full' size={'lg'} disabled={isLoading || items.length === 0}>
+                      {isLoading && <Loader2 className='text-zinc-50 animate-spin w-4 h-4 mr-1.5' />}
+                      Checkout
                     </Button>
                 </div>
             </section>
