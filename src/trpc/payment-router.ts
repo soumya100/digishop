@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import {
   privateProcedure,
-  publicProcedure,
   router,
 } from './trpc'
 import { TRPCError } from '@trpc/server'
@@ -55,7 +54,7 @@ export const paymentRouter = router({
       })
 
       line_items.push({
-        price: 'price_1OCeBwA19umTXGu8s4p2G3aX',
+        price: 'price_1PMX9mSGSafvrZj2QfIJRqL3',
         quantity: 1,
         adjustable_quantity: {
           enabled: false,
@@ -79,6 +78,7 @@ export const paymentRouter = router({
           console.log(stripeSession)
         return { url: stripeSession.url }
       } catch (err) {
+        console.error(err)
         return { url: null }
       }
     }),
