@@ -3,7 +3,7 @@ import { PRODUCT_CATEGORIES } from '@/config';
 import { useCart } from '@/hooks/use-cart';
 import { cn, formatPrice } from '@/lib/utils';
 import { pathName } from '@/routes/routes';
-import { CircleCheckBig, Loader2, X } from 'lucide-react';
+import { CheckCircle2, Loader2, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
@@ -124,7 +124,7 @@ const CheckOut: FC<CheckOutProps> = ({ }) => {
                                             </div>
                                         </div>
                                         <p className='mt-4 flex space-x-2 text-sm text-gray-700 dark:text-foreground'>
-                                            <CircleCheckBig className='h-5 w-5 flex-shrink-0 text-green-500 dark:text-green-300' />
+                                            <CheckCircle2 className='h-5 w-5 flex-shrink-0 text-green-500 dark:text-green-300' />
                                             <span className=''>
                                                 Eligible for instant delivery
                                             </span>

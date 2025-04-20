@@ -7,13 +7,14 @@ import { TRPCError } from '@trpc/server'
 import { getPayloadClient } from '../get-payload'
 import { stripe } from '../lib/stripe'
 import type Stripe from 'stripe'
+import type { Product, Order } from '@/payload-types'
 
 export const paymentRouter = router({
   createSession: privateProcedure
     .input(z.object({ productIds: z.array(z.string()) }))
     .mutation(async ({ ctx, input }) => {
       const { user } = ctx
-      let { productIds } = input
+      const { productIds } = input
 
       if (productIds.length === 0) {
         throw new TRPCError({ code: 'BAD_REQUEST' })
@@ -21,7 +22,7 @@ export const paymentRouter = router({
 
       const payload = await getPayloadClient()
 
-      const { docs: products } = await payload.find({
+      const { docs: rawProducts } = await payload.find({
         collection: 'products',
         where: {
           id: {
@@ -29,6 +30,8 @@ export const paymentRouter = router({
           },
         },
       })
+
+      const products = rawProducts as unknown as Product[]
 
       const filteredProducts = products.filter((prod) =>
         Boolean(prod.priceId)
@@ -43,8 +46,7 @@ export const paymentRouter = router({
         },
       })
 
-      const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] =
-        []
+      const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = []
 
       filteredProducts.forEach((product) => {
         line_items.push({
@@ -62,26 +64,26 @@ export const paymentRouter = router({
       })
 
       try {
-        const stripeSession =
-          await stripe.checkout.sessions.create({
-            success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
-            cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,
-            payment_method_types: ['card', 'paypal'],
-            mode: 'payment',
-            metadata: {
-              userId: user.id,
-              orderId: order.id,
-            },
-            line_items,
-          })
-          
-          console.log(stripeSession)
+        const stripeSession = await stripe.checkout.sessions.create({
+          success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
+          cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,
+          payment_method_types: ['card', 'paypal'],
+          mode: 'payment',
+          metadata: {
+            userId: user.id,
+            orderId: order.id,
+          },
+          line_items,
+        })
+
+        console.log(stripeSession)
         return { url: stripeSession.url }
       } catch (err) {
         console.error(err)
         return { url: null }
       }
     }),
+
   pollOrderStatus: privateProcedure
     .input(z.object({ orderId: z.string() }))
     .query(async ({ input }) => {
@@ -89,7 +91,7 @@ export const paymentRouter = router({
 
       const payload = await getPayloadClient()
 
-      const { docs: orders } = await payload.find({
+      const { docs: rawOrders } = await payload.find({
         collection: 'orders',
         where: {
           id: {
@@ -97,6 +99,8 @@ export const paymentRouter = router({
           },
         },
       })
+
+      const orders = rawOrders as unknown as Order[]
 
       if (!orders.length) {
         throw new TRPCError({ code: 'NOT_FOUND' })

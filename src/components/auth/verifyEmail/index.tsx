@@ -20,7 +20,7 @@ const VerifyEmail: FC<VerifyEmail> = ({ searchParams, getToken, isError, data, i
 
   useEffect(() => {
     token && typeof token === 'string' && getToken(token)
-  }, [token])
+  }, [token, getToken])
 
 
   return <div className='container relative flex pt-20 flex-col items-center justofy-center px-0'>
